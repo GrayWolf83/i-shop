@@ -1,4 +1,5 @@
 const prod = process.env.NODE_ENV === 'production';
+const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -26,9 +27,20 @@ module.exports = {
         use: 'ts-loader',
       },
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader",
+        ],
       },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'fonts/[name].[ext]',
+        }
+      }
     ]
   },
   devtool: prod ? undefined : 'source-map',
